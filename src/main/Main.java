@@ -4,57 +4,59 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
+        String pre = "src\\InputOutput_Installation_Task1\\Games\\";
         StringBuilder log = new StringBuilder("");
-        File src = new File("C:\\NetologyProjects\\JavaCoreNetology\\src\\InputOutput_Installation_Task1\\Games\\src");
+
+        File src = new File(pre + "src");
         log.append("Add dir: Games.src\n");
-        File main = new File("C:\\NetologyProjects\\JavaCoreNetology\\src\\InputOutput_Installation_Task1\\Games\\src\\main");
+        File main = new File(pre + "src\\main");
         log.append("Add dir: Games.src.main\n");
-        File test = new File("C:\\NetologyProjects\\JavaCOreNetology\\src\\InputOutput_Installation_Task1\\Games\\src\\test");
+        File test = new File(pre + "src\\test");
 
-        File res = new File("C:\\NetologyProjects\\JavaCoreNetology\\src\\InputOutput_Installation_Task1\\Games\\res");
-        File drawables = new File("C:\\NetologyProjects\\JavaCOreNetology\\src\\InputOutput_Installation_Task1\\Games\\res\\drawables");
-        File vectors = new File("C:\\NetologyProjects\\JavaCOreNetology\\src\\InputOutput_Installation_Task1\\Games\\res\\vectors");
-        File icons = new File("C:\\NetologyProjects\\JavaCOreNetology\\src\\InputOutput_Installation_Task1\\Games\\res\\icons");
+        File res = new File(pre + "res");
+        File drawables = new File(pre + "res\\drawables");
+        File vectors = new File(pre + "res\\vectors");
+        File icons = new File(pre + "res\\icons");
 
-        File savegames = new File("C:\\NetologyProjects\\JavaCoreNetology\\src\\InputOutput_Installation_Task1\\Games\\savegames");
-        File temp = new File("C:\\NetologyProjects\\JavaCoreNetology\\src\\InputOutput_Installation_Task1\\Games\\temp");
+        File savegames = new File(pre + "savegames");
+        File temp = new File(pre + "temp");
 
-        test.mkdir();
-        log.append("Add dir: Games.src.test\n");
-        res.mkdir();
-        log.append("Add dir: Games.res\n");
-        drawables.mkdir();
-        log.append("Add dir: Games.res.drawables\n");
-        vectors.mkdir();
-        log.append("Add dir: Games.res.vectors\n");
-        icons.mkdir();
-        log.append("Add dir: Games.res.icons\n");
-        savegames.mkdir();
-        log.append("Add dir: Games.savegames\n");
-        temp.mkdir();
-        log.append("Add dir: Games.temp\n");
+        createFolderAndAddLineToLog(test, log);
+        createFolderAndAddLineToLog(res, log);
+        createFolderAndAddLineToLog(drawables, log);
+        createFolderAndAddLineToLog(vectors, log);
+        createFolderAndAddLineToLog(icons, log);
+        createFolderAndAddLineToLog(savegames, log);
+        createFolderAndAddLineToLog(temp, log);
 
-        File mainJava = new File(
-                "C:\\NetologyProjects\\JavaCoreNetology\\src\\InputOutput_Installation_Task1\\Games\\src\\main",
-                "Main.java");
-        File utilsJava = new File(
-                "C:\\NetologyProjects\\JavaCoreNetology\\src\\InputOutput_Installation_Task1\\Games\\src\\main",
-                "Utils.java");
-        File tempTxt = new File(
-                "C:\\NetologyProjects\\JavaCoreNetology\\src\\InputOutput_Installation_Task1\\Games\\temp",
-                "Temp.txt");
+        File mainJava = new File(pre + "src\\main", "Main.java");
+        File utilsJava = new File(pre + "src\\main", "Utils.java");
+        File tempTxt = new File(pre + "temp", "Temp.txt");
 
-        try {
-            if (utilsJava.createNewFile()) log.append("Add file: Games.src.main.Utils.java");
-            if (tempTxt.createNewFile()) log.append("Add file: Games.temp.Temp.txt\n");
-        } catch(IOException e) {
-            System.out.println(e.getMessage());
-        }
+        createFileAndAddLineToLog(utilsJava, log);
+        createFileAndAddLineToLog(tempTxt, log);
 
-        try (FileWriter logWriter = new FileWriter(tempTxt, true);
+        try (FileWriter logWriter = new FileWriter(tempTxt, false);
              BufferedWriter bufferedLogWriter = new BufferedWriter(logWriter)) {
 
             bufferedLogWriter.write(log.toString());
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void createFolderAndAddLineToLog(File file, StringBuilder sb) {
+        file.mkdir();
+        try {
+            sb.append("Add dir: " + file.getCanonicalPath() + "\n");
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public static void createFileAndAddLineToLog(File file, StringBuilder sb) {
+        try {
+            if (file.createNewFile()) sb.append("Add file: " + file.getPath() + "\n");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
